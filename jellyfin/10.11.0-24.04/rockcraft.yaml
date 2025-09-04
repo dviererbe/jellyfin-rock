@@ -32,6 +32,7 @@ parts:
           - dotnet9
         stage-packages:
           - libicu74
+          - ca-certificates
         build-environment:
             - X_DEBIAN_MULTIARCH_TRIPLET: $CRAFT_ARCH_TRIPLET_BUILD_FOR
         override-build: |
