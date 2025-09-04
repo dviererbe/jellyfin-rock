@@ -12,12 +12,17 @@ platforms:
     amd64:
     arm64:
 
+package-repositories:
+ - type: apt
+   ppa: dotnet/backports
+   priority: always
+
 parts:
     backend:
         source: https://github.com/jellyfin/jellyfin.git
         plugin: nil
-        build-snaps:
-          - dotnet-sdk-90
+        build-packages:
+          - dotnet9
         stage-packages:
           - libicu74
         build-environment:
@@ -36,11 +41,6 @@ parts:
                     ;;
             esac
 
-            SNAP_PATH=/snap/dotnet-sdk-90/current
-
-            export PATH="${PATH}:${SNAP_PATH}/usr/lib/dotnet"
-            export LD_LIBRARY_PATH="${SNAP_PATH}/usr/lib/${X_DEBIAN_MULTIARCH_TRIPLET}:${SNAP_PATH}/lib/${X_DEBIAN_MULTIARCH_TRIPLET}"
-            
             cd Jellyfin.Server
             dotnet publish \
                 --configuration Release \
@@ -74,7 +74,6 @@ services:
         command: /usr/lib/jellyfin/jellyfin
         kill-delay: 30s
         environment:
-            LD_LIBRARY_PATH: "/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
             LC_ALL: "en_US.UTF-8"
             LANG: "en_US.UTF-8"
             LANGUAGE: "en_US:en"
