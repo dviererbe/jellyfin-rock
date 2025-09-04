@@ -16,6 +16,13 @@ package-repositories:
  - type: apt
    ppa: dotnet/backports
    priority: always
+ - type: apt
+   url: https://repo.jellyfin.org/ubuntu
+   priority: prefer
+   suites: [noble]
+   components: [main]
+   architectures: [$CRAFT_ARCH_BUILD_FOR]
+   key-id: 4918AABC486CA052358D778D49023CD01DE21A7B
 
 parts:
     backend:
@@ -65,7 +72,7 @@ parts:
     ffmpeg:
         plugin: nil
         stage-packages:
-            - ffmpeg
+            - jellyfin-ffmpeg7
 
 services:
     jellyfin:
@@ -78,7 +85,7 @@ services:
             LANG: "en_US.UTF-8"
             LANGUAGE: "en_US:en"
             JELLYFIN_WEB_DIR: "/usr/lib/jellyfin-web"
-            #JELLYFIN_FFMPEG: "/usr/bin/ffmpeg"
+            JELLYFIN_FFMPEG: "/usr/lib/jellyfin-ffmpeg/ffmpeg"
             # locations from official jellyfin docker image:
             JELLYFIN_DATA_DIR: "/config"
             JELLYFIN_CONFIG_DIR: "/config/config"
