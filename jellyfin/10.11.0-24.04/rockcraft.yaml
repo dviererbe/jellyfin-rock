@@ -1,5 +1,6 @@
 name: jellyfin
-base: ubuntu@24.04
+build-base: ubuntu@24.04
+base: bare
 version: '10.11.0'
 summary: The Free Software Media System
 description: |
@@ -31,8 +32,15 @@ parts:
         build-packages:
           - dotnet9
         stage-packages:
-          - libicu74
-          - ca-certificates
+          - libc6_libs
+          - libgcc-s1_libs
+          - libicu74_libs
+          - liblttng-ust1t64_libs
+          - libssl3t64_libs
+          - libstdc++6_libs
+          - zlib1g_libs
+          - libicu74_libs
+          - ca-certificates_data
         build-environment:
             - X_DEBIAN_MULTIARCH_TRIPLET: $CRAFT_ARCH_TRIPLET_BUILD_FOR
         override-build: |
